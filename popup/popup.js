@@ -50,9 +50,6 @@ function renderPicker(current) {
             li.append(a)
             styleClass = "not-current";
         }
-        if (record["dimmed"]) {
-            styleClass += " dimmed";
-        }
         li.setAttribute("class", styleClass);
         ul.append(li);
     });

@@ -8,19 +8,12 @@ ul#picker {
     list-style: none;
     padding: 8px;
     white-space: nowrap;
+    font-weight: bold;
 }
 
 ul#picker li a, a:visited {
     color: #76b900;
     text-decoration: none;
-}
-
-ul#picker li.current {
-    font-weight: bold;
-}
-
-ul#picker li.dimmed a {
-    color: #aaaaaa;
 }
 
 ul#picker li.not-current:hover {
