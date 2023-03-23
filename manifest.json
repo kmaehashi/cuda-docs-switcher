@@ -1,0 +1,18 @@
+{
+  "manifest_version": 3,
+  "name": "CUDA Docs Switcher",
+  "version": "0.0.1",
+
+  "description": "Access CUDA documentation and switch between versions quickly & easily.",
+  "icons": {
+    "128": "icon.png"
+  },
+
+  "action": {
+    "default_icon": {
+      "128": "icon.png"
+    },
+    "default_popup": "popup/popup.html"
+  },
+  "permissions": ["tabs"]
+}

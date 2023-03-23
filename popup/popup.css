@@ -1,0 +1,32 @@
+body {
+    margin: 0px;
+    font-size: 90%;
+    width: 100%;
+}
+
+ul#picker {
+    list-style: none;
+    padding: 8px;
+    white-space: nowrap;
+}
+
+ul#picker li a, a:visited {
+    color: #76b900;
+    text-decoration: none;
+}
+
+ul#picker li.current {
+    font-weight: bold;
+}
+
+ul#picker li.dimmed a {
+    color: #aaaaaa;
+}
+
+ul#picker li.not-current:hover {
+    background-color: #549000;
+}
+
+ul#picker li.not-current:hover a {
+    color: #ffffff;
+}
