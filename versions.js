@@ -35,8 +35,8 @@ CUDA_DOC_VERSIONS = [
   {"version": "11.1.1", "id": "11.1.1"},
   {"version": "11.1.0", "id": "11.1.0"},
 
-  {"version": "11.0 (GA)", "id": "11.0_GA"},
-  {"version": "11.0", "id": "11.0"},
+  {"version": "11.0.3", "id": "11.0"},
+  {"version": "11.0.2", "id": "11.0_GA"},
 
   {"version": "10.2", "id": "10.2"},
   {"version": "10.1", "id": "10.1"},
