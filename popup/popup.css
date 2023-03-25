@@ -11,6 +11,11 @@ ul#picker {
     font-weight: bold;
 }
 
+ul#picker li {
+    padding-right: 18px;
+    padding-left: 18px;
+}
+
 ul#picker li a, a:visited {
     color: #76b900;
     text-decoration: none;
