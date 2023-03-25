@@ -22,9 +22,24 @@ function parseURL(url) {
 }
 
 function renderPicker(current) {
+    chrome.storage.local.get(["versions"]).then(data => {
+        var versions;
+        if ("versions" in data) {
+            versions = data["versions"];
+        } else {
+            console.error("versions not yet available in local storage");
+            versions = [
+                {"version": "Latest", "id": "LATEST"}
+            ]
+        }
+        renderPickerWith(versions, current);
+    });
+}
+
+function renderPickerWith(versions, current) {
     let ul = document.getElementById("picker");
     ul.replaceChildren();  // remove all items
-    CUDA_DOC_VERSIONS.forEach(record => {
+    versions.forEach(record => {
         let li = document.createElement("li");
         var styleClass;
         if (current["id"] === record["id"]) {

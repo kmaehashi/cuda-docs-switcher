@@ -14,5 +14,9 @@
     },
     "default_popup": "popup/popup.html"
   },
-  "permissions": ["activeTab"]
+  "background": {
+    "service_worker": "background.js"
+  },
+  "permissions": ["activeTab", "alarms", "storage"],
+  "host_permissions": ["https://raw.githubusercontent.com/"]
 }
