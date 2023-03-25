@@ -1,6 +1,5 @@
 "use strict";
 
-
 function loadVersions() {
     loadVersionsFromLocal().then(loadVersionsFromRemote)
 }
@@ -36,14 +35,13 @@ function loadVersionsFromURL(url) {
 
 chrome.runtime.onInstalled.addListener(loadVersions);
 chrome.runtime.onStartup.addListener(loadVersions);
+chrome.alarms.onAlarm.addListener(loadVersionsFromRemote);
 
 let RELEASE = true;
 if (RELEASE) {
-    chrome.alarms.onAlarm.addListener(loadVersionsFromRemote);
     chrome.alarms.create("update", {periodInMinutes: 12 * 60});  // every 12 hours
 } else {
     console.warn("*** DEVELOPMENT MODE ***");
     chrome.storage.local.clear();
-    chrome.alarms.onAlarm.addListener(loadVersions);
     chrome.alarms.create("update", {delayInMinutes: 0, periodInMinutes: 0.1});
 }
