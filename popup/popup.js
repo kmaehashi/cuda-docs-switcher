@@ -76,6 +76,7 @@ function renderPickerWith(versions, current) {
 function popUpMain() {
     chrome.tabs.query({active: true, lastFocusedWindow: true}, tabs => {
         if (tabs.length === 0) {
+            console.warn("no active tabs found")
             return;
         }
         renderPicker(parseURL(tabs[0].url));
