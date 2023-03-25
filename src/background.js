@@ -9,7 +9,7 @@ function loadVersionsFromLocal() {
 }
 
 function loadVersionsFromRemote() {
-    return loadVersionsFromURL("https://raw.githubusercontent.com/kmaehashi/cuda-docs-switcher/main/versions-v1.json");
+    return loadVersionsFromURL("https://raw.githubusercontent.com/kmaehashi/cuda-docs-switcher/main/static/versions-v1.json");
 }
 
 function loadVersionsFromURL(url) {
