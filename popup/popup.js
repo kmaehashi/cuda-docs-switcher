@@ -55,11 +55,14 @@ function renderPickerWith(versions, current) {
             }
             a.setAttribute("href", urlPrefix + current["path"]);
             a.addEventListener("click", event => {
-                if (!(event.ctrlKey || event.shiftKey || event.metaKey || event.which == 2)) {
-                    openURL(a.href);
-                    event.stopPropagation();
-                    event.preventDefault();
+                if ((event.ctrlKey || event.shiftKey || event.metaKey || event.which == 2)) {
+                    chrome.tabs.create({url: a.href, active: false});
+                } else {
+                    chrome.tabs.update({url: a.href});
+                    renderPickerWith(versions, parseURL(a.href));
                 }
+                event.stopPropagation();
+                event.preventDefault();
             });
             a.textContent = record["version"];
             li.append(a)
@@ -67,16 +70,6 @@ function renderPickerWith(versions, current) {
         }
         li.setAttribute("class", styleClass);
         ul.append(li);
-    });
-}
-
-function openURL(url) {
-    chrome.tabs.query({active: true, currentWindow: true}, tabs => {
-        if (tabs.length === 0) {
-            return;
-        }
-        chrome.tabs.update(tabs[0].id, {url: url});
-        renderPicker(parseURL(url));
     });
 }
 
