@@ -13,3 +13,10 @@ release: all
 	@echo "*** Upload the ZIP to the Chrome Web Store."
 	@echo "*** MAKE SURE YOU BUMPED THE VERSION NUMBER!"
 	@grep -F '"version":' src/manifest.json
+
+.PHONY: test
+test: all
+	npx playwright test
+	# Alternate Options:
+	# npx playwright test --ui
+	# npx playwright test --debug

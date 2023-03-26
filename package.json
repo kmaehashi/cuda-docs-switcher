@@ -1,0 +1,12 @@
+{
+  "name": "cuda-docs-switcher",
+  "version": "0.0.1",
+  "description": "Access CUDA documentation and switch between versions quickly & easily.",
+  "scripts": {},
+  "keywords": [],
+  "author": "",
+  "license": "MIT",
+  "devDependencies": {
+    "@playwright/test": "^1.32.1"
+  }
+}
