@@ -1,7 +1,7 @@
 {
   "manifest_version": 3,
   "name": "CUDA Docs Switcher",
-  "version": "0.0.1",
+  "version": "0.0.2",
 
   "description": "Access CUDA documentation and switch between versions quickly & easily.",
   "icons": {
