@@ -1,2 +1,11 @@
+# node
+node_modules/
+
+# playwright
+/test-results/
+/playwright-report/
+/playwright/.cache/
+
+# project-specific
 /dist/
 cuda-docs-switcher-dist.zip
