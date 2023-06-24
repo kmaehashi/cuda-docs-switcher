@@ -22,7 +22,7 @@ const fetchAndExtractVersions = async (url) => {
   const versions = versionsFound.filter((href, idx) => {
     return versionsFound.indexOf(href) === idx;  // Dedup
   });
-  // versions.unshift('21.2.3');
+  versions.unshift('21.2.3');
   console.log(`Found: ${versions.join(", ")}`);
   return versions;
 }
