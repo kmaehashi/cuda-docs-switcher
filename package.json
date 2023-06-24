@@ -1,0 +1,6 @@
+{
+  "dependencies": {
+    "@xmldom/xmldom": "^0.8.8",
+    "node-fetch": "^3.3.1"
+  }
+}
