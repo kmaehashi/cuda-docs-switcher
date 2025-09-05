@@ -4,6 +4,26 @@
     "id": "LATEST"
   },
   {
+    "version": "13.0.0",
+    "id": "13.0.0"
+  },
+  {
+    "version": "BSP5.0-CrossCompile",
+    "id": "BSP5.0-CrossCompile"
+  },
+  {
+    "version": "BSP5.0-NativeARM64",
+    "id": "BSP5.0-NativeARM64"
+  },
+  {
+    "version": "BSP5.0.CrossCompile",
+    "id": "BSP5.0.CrossCompile"
+  },
+  {
+    "version": "BSP5.0.NativeARM64",
+    "id": "BSP5.0.NativeARM64"
+  },
+  {
     "version": "12.9.1",
     "id": "12.9.1"
   },
