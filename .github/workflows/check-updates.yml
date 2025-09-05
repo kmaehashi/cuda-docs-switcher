@@ -23,7 +23,7 @@ jobs:
     - run: npm install
     - run: npm list
     - run: node ./utils/check_updates.mjs static/versions-v1.json
-    - if: ${{ github.event != 'pull_request' }}
+    - if: ${{ github.event_name != 'pull_request' }}
       uses: peter-evans/create-pull-request@v6
       with:
         branch: auto-bump-versions
