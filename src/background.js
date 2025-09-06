@@ -37,6 +37,12 @@ chrome.runtime.onInstalled.addListener(loadVersions);
 chrome.runtime.onStartup.addListener(loadVersions);
 chrome.alarms.onAlarm.addListener(loadVersionsFromRemote);
 
+chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
+    if (request.action === "reloadVersions") {
+        loadVersionsFromRemote();
+    }
+});
+
 let RELEASE = true;
 if (RELEASE) {
     chrome.alarms.create("update", {periodInMinutes: 12 * 60});  // every 12 hours
