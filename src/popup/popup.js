@@ -81,6 +81,16 @@ function popUpMain() {
         }
         renderPicker(parseURL(tabs[0].url));
     });
+
+    document.getElementById("reload-button").addEventListener("click", () => {
+        chrome.runtime.sendMessage({action: "reloadVersions"});
+    });
+
+    chrome.storage.onChanged.addListener((changes, namespace) => {
+        if (namespace === "local" && "versions" in changes) {
+            popUpMain();
+        }
+    });
 }
 
 (function(){popUpMain();})();

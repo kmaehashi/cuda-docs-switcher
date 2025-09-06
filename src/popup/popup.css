@@ -28,3 +28,39 @@ ul#picker li.not-current:hover {
 ul#picker li.not-current:hover a {
     color: #ffffff;
 }
+
+#footer {
+    background-color: #f2f2f2;
+    border-top: 1px solid #e0e0e0;
+    padding: 4px;
+    height: 24px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+#reload-button {
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+}
+
+#reload-button svg {
+    fill: #666;
+    width: 16px;
+    height: 16px;
+}
+
+#reload-button span {
+    margin-left: 4px;
+    color: #666;
+    font-size: 90%;
+}
+
+#reload-button:hover svg {
+    fill: #000;
+}
+
+#reload-button:hover span {
+    color: #000;
+}
