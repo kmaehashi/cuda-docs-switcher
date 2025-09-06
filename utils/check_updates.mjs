@@ -8,6 +8,17 @@ const urls = ['https://developer.nvidia.com/cuda-toolkit-archive', 'https://docs
 // Regex pattern to match
 const pattern = /^https:\/\/docs.nvidia.com\/cuda\/archive\/(.+?)\//;
 
+// Check if a URL exists
+const checkUrlExists = async (url) => {
+  try {
+    const response = await fetch(url, { method: 'HEAD' });
+    return response.ok;
+  } catch (error) {
+    console.warn(`Could not check URL ${url}: ${error}`);
+    return false;
+  }
+};
+
 // Fetch and extract versions from the URLs
 const fetchAndExtractVersions = async (url) => {
   console.log(`Parsing: ${url}`);
@@ -19,8 +30,19 @@ const fetchAndExtractVersions = async (url) => {
   const versionsFound = links.map(link => new URL(link.getAttribute('href'), url).href)
                         .filter(href => pattern.test(href))
                         .map(href => pattern.exec(href)[1]);
-  const versions = versionsFound.filter((href, idx) => {
-    return versionsFound.indexOf(href) === idx;  // Dedup
+
+  const checkedVersions = [];
+  for (const version of versionsFound) {
+      const url = `https://docs.nvidia.com/cuda/archive/${version}/`;
+      if (await checkUrlExists(url)) {
+          checkedVersions.push(version);
+      } else {
+          console.log(`WARN: ${url} does not exist, skipping`);
+      }
+  }
+
+  const versions = checkedVersions.filter((href, idx) => {
+    return checkedVersions.indexOf(href) === idx;  // Dedup
   });
   // versions.unshift('21.2.3');
   console.log(`Found: ${versions.join(", ")}`);
