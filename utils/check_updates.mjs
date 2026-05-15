@@ -8,6 +8,37 @@ const urls = ['https://developer.nvidia.com/cuda-toolkit-archive', 'https://docs
 // Regex pattern to match
 const pattern = /^https:\/\/docs.nvidia.com\/cuda\/archive\/(.+?)\//;
 
+const isNumericVersion = (version) => /^\d+(\.\d+)*$/.test(version);
+
+const compareVersionsDesc = (a, b) => {
+  const aParts = a.split('.').map(Number);
+  const bParts = b.split('.').map(Number);
+  const maxLen = Math.max(aParts.length, bParts.length);
+  for (let i = 0; i < maxLen; i++) {
+    const av = aParts[i] ?? 0;
+    const bv = bParts[i] ?? 0;
+    if (av > bv) return -1;
+    if (av < bv) return 1;
+  }
+  return 0;
+};
+
+const sortVersions = (versions) => {
+  if (versions.length <= 1) return versions;
+  const [first, ...rest] = versions;
+  const sortedRest = [...rest].sort((a, b) => {
+    const aNumeric = isNumericVersion(a.version);
+    const bNumeric = isNumericVersion(b.version);
+    if (aNumeric && bNumeric) {
+      return compareVersionsDesc(a.version, b.version);
+    }
+    if (aNumeric) return -1;
+    if (bNumeric) return 1;
+    return 0;
+  });
+  return [first, ...sortedRest];
+};
+
 // Check if a URL exists
 const checkUrlExists = async (url) => {
   try {
@@ -77,19 +108,20 @@ const main = async () => {
     return;
   }
   let allVersions = readVersionsFile(filePath);
-  let index = 0;
+  const existingIds = new Set(allVersions.map(v => v.id));
   for (const url of urls) {
     const versions = await fetchAndExtractVersions(url);
     for (const version of versions) {
-      if (!allVersions.map(v => v.id).includes(version)) {
-        allVersions.splice(++index, 0, {
+      if (!existingIds.has(version)) {
+        allVersions.push({
           version: version,
           id: version
         });
+        existingIds.add(version);
       }
     }
   }
-  writeVersionsFile(allVersions, filePath);
+  writeVersionsFile(sortVersions(allVersions), filePath);
 }
 
 main();
