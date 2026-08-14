@@ -4,6 +4,10 @@
     "id": "LATEST"
   },
   {
+    "version": "13.4 (DP)",
+    "id": "developer-preview/13.4"
+  },
+  {
     "version": "13.3.0",
     "id": "13.3.0"
   },

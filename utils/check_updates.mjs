@@ -3,12 +3,14 @@ import fs from 'fs';
 import { DOMParser } from '@xmldom/xmldom';
 
 // URL list to fetch
-const urls = ['https://developer.nvidia.com/cuda-toolkit-archive', 'https://docs.nvidia.com/cuda/archive/'];
-
-// Regex pattern to match
-const pattern = /^https:\/\/docs.nvidia.com\/cuda\/archive\/(.+?)\//;
+const sources = [
+  {url: 'https://developer.nvidia.com/cuda-toolkit-archive', path: 'archive'},
+  {url: 'https://docs.nvidia.com/cuda/archive/', path: 'archive'},
+  {url: 'https://docs.nvidia.com/cuda/developer-preview/', path: 'developer-preview'},
+];
 
 const isNumericVersion = (version) => /^\d+(\.\d+)*$/.test(version);
+const getVersionNumber = (version) => version.replace(/ \(DP\)$/, '');
 
 const compareVersionsDesc = (a, b) => {
   const aParts = a.split('.').map(Number);
@@ -27,10 +29,12 @@ const sortVersions = (versions) => {
   if (versions.length <= 1) return versions;
   const [first, ...rest] = versions;
   const sortedRest = [...rest].sort((a, b) => {
-    const aNumeric = isNumericVersion(a.version);
-    const bNumeric = isNumericVersion(b.version);
+    const aVersion = getVersionNumber(a.version);
+    const bVersion = getVersionNumber(b.version);
+    const aNumeric = isNumericVersion(aVersion);
+    const bNumeric = isNumericVersion(bVersion);
     if (aNumeric && bNumeric) {
-      return compareVersionsDesc(a.version, b.version);
+      return compareVersionsDesc(aVersion, bVersion);
     }
     if (aNumeric) return -1;
     if (bNumeric) return 1;
@@ -51,24 +55,25 @@ const checkUrlExists = async (url) => {
 };
 
 // Fetch and extract versions from the URLs
-const fetchAndExtractVersions = async (url) => {
-  console.log(`Parsing: ${url}`);
-  const response = await fetch(url);
+const fetchAndExtractVersions = async (source) => {
+  console.log(`Parsing: ${source.url}`);
+  const response = await fetch(source.url);
   const text = await response.text();
   const parser = new DOMParser();
   const doc = parser.parseFromString(text, "text/html");
   const links = Array.from(doc.getElementsByTagName('a'));
-  const versionsFound = links.map(link => new URL(link.getAttribute('href'), url).href)
+  const pattern = new RegExp(`^https://docs\\.nvidia\\.com/cuda/${source.path}/(.+?)/`);
+  const versionsFound = links.map(link => new URL(link.getAttribute('href'), source.url).href)
                         .filter(href => pattern.test(href))
                         .map(href => pattern.exec(href)[1]);
 
   const checkedVersions = [];
   for (const version of versionsFound) {
-      const url = `https://docs.nvidia.com/cuda/archive/${version}/`;
-      if (await checkUrlExists(url)) {
+      const versionUrl = `https://docs.nvidia.com/cuda/${source.path}/${version}/`;
+      if (await checkUrlExists(versionUrl)) {
           checkedVersions.push(version);
       } else {
-          console.log(`WARN: ${url} does not exist, skipping`);
+          console.log(`WARN: ${versionUrl} does not exist, skipping`);
       }
   }
 
@@ -109,15 +114,17 @@ const main = async () => {
   }
   let allVersions = readVersionsFile(filePath);
   const existingIds = new Set(allVersions.map(v => v.id));
-  for (const url of urls) {
-    const versions = await fetchAndExtractVersions(url);
+  for (const source of sources) {
+    const versions = await fetchAndExtractVersions(source);
     for (const version of versions) {
-      if (!existingIds.has(version)) {
+      const isDeveloperPreview = source.path === 'developer-preview';
+      const id = isDeveloperPreview ? `${source.path}/${version}` : version;
+      if (!existingIds.has(id)) {
         allVersions.push({
-          version: version,
-          id: version
+          version: version + (isDeveloperPreview ? ' (DP)' : ''),
+          id: id
         });
-        existingIds.add(version);
+        existingIds.add(id);
       }
     }
   }
