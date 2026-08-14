@@ -5,20 +5,26 @@ function parseURL(url) {
     // https://docs.nvidia.com/cuda/cuda-quick-start-guide/index.html#local-installer
     // A URL of the archived docs looks like:
     // https://docs.nvidia.com/cuda/archive/12.0.0/cuda-quick-start-guide/index.html#local-installer
+    // A URL of the developer preview docs looks like:
+    // https://docs.nvidia.com/cuda/developer-preview/13.4/cuda-quick-start-guide/index.html#local-installer
 
     const cudaDocUrlRegex = new RegExp("^https://docs\.nvidia\.com/cuda/(.*?)$");
-    const archivePathRegex = new RegExp("^archive/(.+?)/(.*)$");
+    const versionedPathRegex = new RegExp("^(archive|developer-preview)/(.+?)/(.*)$");
 
     let cudaDocUrlParts = url.match(cudaDocUrlRegex);
     if (cudaDocUrlParts === null) {
         return {"id": "UNKNOWN", "path": ""};
     }
     let cudaDocPath = cudaDocUrlParts[1];
-    let archiveParts = cudaDocPath.match(archivePathRegex);
-    if (archiveParts === null) {
+    let versionedParts = cudaDocPath.match(versionedPathRegex);
+    if (versionedParts === null) {
         return {"id": "LATEST", "path": cudaDocPath};
     }
-    return {"id": archiveParts[1], "path": archiveParts[2]}
+    let id = versionedParts[2];
+    if (versionedParts[1] === "developer-preview") {
+        id = versionedParts[1] + "/" + id;
+    }
+    return {"id": id, "path": versionedParts[3]}
 }
 
 function renderPicker(current) {
@@ -50,6 +56,8 @@ function renderPickerWith(versions, current) {
             var urlPrefix;
             if (record["id"] === "LATEST") {
                 urlPrefix = "https://docs.nvidia.com/cuda/";
+            } else if (record["id"].startsWith("developer-preview/")) {
+                urlPrefix = "https://docs.nvidia.com/cuda/" + record["id"] + "/";
             } else {
                 urlPrefix = "https://docs.nvidia.com/cuda/archive/" + record["id"] + "/";
             }
