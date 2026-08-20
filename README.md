@@ -8,6 +8,11 @@
 
 Go to [Chrome Web Store](https://chrome.google.com/webstore/detail/cuda-docs-switcher/eioaokfmnlkfgfnpnbaohndhfedieafm) and click the "Add to Chrome" button to install the extension.
 
+## Documentation
+
+- [Development guide](DEVELOP.md)
+- [Release process](RELEASE.md)
+
 ## How to Use
 
 After installing the extension, you will see a new button with the "D" logo in your browser toolbar.
