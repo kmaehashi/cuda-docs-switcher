@@ -6,7 +6,6 @@ import { DOMParser } from '@xmldom/xmldom';
 const sources = [
   {url: 'https://developer.nvidia.com/cuda-toolkit-archive', path: 'archive'},
   {url: 'https://docs.nvidia.com/cuda/archive/', path: 'archive'},
-  {url: 'https://docs.nvidia.com/cuda/developer-preview/', path: 'developer-preview'},
 ];
 
 const isNumericVersion = (version) => /^\d+(\.\d+)*$/.test(version);
