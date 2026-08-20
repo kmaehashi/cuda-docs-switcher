@@ -11,7 +11,7 @@ Go to [Chrome Web Store](https://chrome.google.com/webstore/detail/cuda-docs-swi
 ## Documentation
 
 - [Development guide](DEVELOP.md)
-- [Release process](docs/release.md)
+- [Release process](RELEASE.md)
 
 ## How to Use
 
