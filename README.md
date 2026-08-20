@@ -8,11 +8,6 @@
 
 Go to [Chrome Web Store](https://chrome.google.com/webstore/detail/cuda-docs-switcher/eioaokfmnlkfgfnpnbaohndhfedieafm) and click the "Add to Chrome" button to install the extension.
 
-## Documentation
-
-- [Development guide](DEVELOP.md)
-- [Release process](RELEASE.md)
-
 ## How to Use
 
 After installing the extension, you will see a new button with the "D" logo in your browser toolbar.
@@ -21,6 +16,11 @@ Click on this button to open the CUDA Docs Switcher menu.
 In the menu, you can choose the version of the CUDA documentation you want to view.
 The extension will load the documentation for that version while keeping the same page open.
 This is useful if you are working with multiple versions of CUDA and need to switch between documentation versions quickly.
+
+## Developer Documentation
+
+- [Development guide](DEVELOP.md)
+- [Release process](RELEASE.md)
 
 ## License
 
