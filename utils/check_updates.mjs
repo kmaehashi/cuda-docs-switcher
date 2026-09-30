@@ -5,6 +5,7 @@ import { DOMParser } from '@xmldom/xmldom';
 // URL list to fetch
 const sources = [
   {url: 'https://developer.nvidia.com/cuda-toolkit-archive', path: 'archive'},
+  {url: 'https://developer.nvidia.com/cuda-toolkit-archive', path: 'developer-preview'},
   {url: 'https://docs.nvidia.com/cuda/archive/', path: 'archive'},
 ];
 
