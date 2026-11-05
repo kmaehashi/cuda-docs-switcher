@@ -11,6 +11,10 @@ function parseURL(url) {
     const cudaDocUrlRegex = new RegExp("^https://docs\.nvidia\.com/cuda/(.*?)$");
     const versionedPathRegex = new RegExp("^(archive|developer-preview)/(.+?)/(.*)$");
 
+    // `url` is undefined when the extension has no permission to see the tab's URL.
+    if (typeof url !== "string") {
+        return {"id": "UNKNOWN", "path": ""};
+    }
     let cudaDocUrlParts = url.match(cudaDocUrlRegex);
     if (cudaDocUrlParts === null) {
         return {"id": "UNKNOWN", "path": ""};
@@ -84,7 +88,8 @@ function renderPickerWith(versions, current) {
 function popUpMain() {
     chrome.tabs.query({active: true, lastFocusedWindow: true}, tabs => {
         if (tabs.length === 0) {
-            console.warn("no active tabs found")
+            console.warn("no active tabs found");
+            renderPicker(parseURL(undefined));
             return;
         }
         renderPicker(parseURL(tabs[0].url));
