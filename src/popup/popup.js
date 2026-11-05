@@ -27,7 +27,11 @@ function parseURL(url) {
     return {"id": id, "path": versionedParts[3]}
 }
 
+// Location of the tab the picker is rendered for; null until the active tab is queried.
+let currentLocation = null;
+
 function renderPicker(current) {
+    currentLocation = current;
     chrome.storage.local.get(["versions"]).then(data => {
         var versions;
         if ("versions" in data) {
@@ -67,7 +71,8 @@ function renderPickerWith(versions, current) {
                     chrome.tabs.create({url: a.href, active: false});
                 } else {
                     chrome.tabs.update({url: a.href});
-                    renderPickerWith(versions, parseURL(a.href));
+                    currentLocation = parseURL(a.href);
+                    renderPickerWith(versions, currentLocation);
                 }
                 event.stopPropagation();
                 event.preventDefault();
@@ -95,8 +100,9 @@ function popUpMain() {
     });
 
     chrome.storage.onChanged.addListener((changes, namespace) => {
-        if (namespace === "local" && "versions" in changes) {
-            popUpMain();
+        // Only re-render; calling popUpMain() here would register the listeners again.
+        if (namespace === "local" && "versions" in changes && currentLocation !== null) {
+            renderPicker(currentLocation);
         }
     });
 }
