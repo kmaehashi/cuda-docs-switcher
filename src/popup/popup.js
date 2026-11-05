@@ -82,7 +82,9 @@ function renderPickerWith(versions, current) {
 }
 
 function popUpMain() {
-    chrome.tabs.query({active: true, lastFocusedWindow: true}, tabs => {
+    // Use `currentWindow` (the window the popup belongs to), not `lastFocusedWindow`,
+    // which may point to another window (e.g., undocked DevTools).
+    chrome.tabs.query({active: true, currentWindow: true}, tabs => {
         if (tabs.length === 0) {
             console.warn("no active tabs found")
             return;
